@@ -20,12 +20,14 @@ MIT License
 ## Btc-e REST API Reference
 
 Public API - https://btc-e.com/api/3/docs
+
 Trade API - https://btc-e.com/tapi/docs
+
 Push API - https://btc-e.com/pushAPI/docs
 
 
 ## Contributing
-To create new endpoint - [create issue](https://github.com/madmis/btce-api/issues/new) 
+[create issue](https://github.com/madmis/btce-api/issues/new) 
 or [create pull request](https://github.com/madmis/btce-api/compare)
 
 
