@@ -61,8 +61,8 @@ Tests required running php built in server on 8000 port.
 [testing-link]: https://travis-ci.org/madmis/btce-api
 [testing-image]: https://travis-ci.org/madmis/btce-api.svg?branch=master
 
-[sensiolabs-insight-link]: https://insight.sensiolabs.com/projects/77152883-412e-4a91-86b6-fb976243a020
-[sensiolabs-insight-image]: https://insight.sensiolabs.com/projects/77152883-412e-4a91-86b6-fb976243a020/mini.png
+[sensiolabs-insight-link]: https://insight.sensiolabs.com/projects/b9991422-01a6-48ea-abfb-cf53482465e5
+[sensiolabs-insight-image]: https://insight.sensiolabs.com/projects/b9991422-01a6-48ea-abfb-cf53482465e5/mini.png
 
 [package-link]: https://packagist.org/packages/madmis/btce-api
 [downloads-image]: https://poser.pugx.org/madmis/btce-api/downloads
