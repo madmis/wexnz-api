@@ -6,6 +6,9 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use madmis\BtceApi\Client\ClientInterface;
 use madmis\BtceApi\Client\GuzzleClient;
 use madmis\BtceApi\Endpoint\EndpointFactory;
+use madmis\BtceApi\Endpoint\EndpointInterface;
+use madmis\BtceApi\Endpoint\PublicEndpoint;
+use madmis\BtceApi\Endpoint\TradeEndpoint;
 
 /**
  * Class BtceApi
@@ -68,6 +71,32 @@ class BtceApi
     public function getClient(): ClientInterface
     {
         return $this->client;
+    }
+
+    /**
+     * @return PublicEndpoint|EndpointInterface
+     */
+    public function shared(): PublicEndpoint
+    {
+        return $this
+            ->endpointFactory
+            ->getEndpoint(PublicEndpoint::class, $this->client);
+    }
+
+    /**
+     * @return TradeEndpoint|EndpointInterface
+     */
+    public function trade(): TradeEndpoint
+    {
+        $options = [
+            'publicKey' => $this->publicKey,
+            'secretKey' => $this->secretKey,
+        ];
+
+        return $this
+            ->endpointFactory
+            ->getEndpoint(TradeEndpoint::class, $this->client, $options);
+
     }
 }
 

@@ -17,6 +17,6 @@ class PushEndpoint extends AbstractEndpoint implements EndpointInterface
      */
     protected function sendRequest(string $method, string $uri, array $options = []): array
     {
-        // TODO: Implement sendRequest() method.
+        throw new \RuntimeException('Not implemented');
     }
 }
