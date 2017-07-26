@@ -1,4 +1,4 @@
-# Kuna.io REST API PHP Client
+# Btc-e.com REST API PHP Client
 
 [![SensioLabsInsight][sensiolabs-insight-image]][sensiolabs-insight-link]
 [![Build Status][testing-image]][testing-link]
@@ -7,109 +7,40 @@
 [![Total Downloads][downloads-image]][package-link]
 [![License][license-image]][license-link]
 
-[Kuna.io](https://kuna.io/documents/api) provides REST APIs that you can use
+[Btc-e.com](https://btc-e.com) provides REST APIs that you can use
  to interact with platform programmatically.
 
-This API client will help you interact with Kuna by REST API. 
+This API client will help you interact with Btc-e by REST API. 
  
 
 ## License
 
 MIT License
 
-## Kuna REST API Reference
+## Btc-e REST API Reference
 
-https://kuna.io/documents/api
+Public API - https://btc-e.com/api/3/docs
+Trade API - https://btc-e.com/tapi/docs
+Push API - https://btc-e.com/pushAPI/docs
 
 
 ## Contributing
-To create new endpoint - [create issue](https://github.com/madmis/kuna-api/issues/new) 
-or [create pull request](https://github.com/madmis/kuna-api/compare)
+To create new endpoint - [create issue](https://github.com/madmis/btce-api/issues/new) 
+or [create pull request](https://github.com/madmis/btce-api/compare)
 
 
 ## Install
     
-    composer require madmis/kuna-api 1.0.*
+    composer require madmis/btce-api 1.0.*
 
 
 ## Usage
-```php
-$api = new KunaApi(
-    'https://kuna.io',
-    'public key',
-    'secret key'
-);
-$timestamp = $api->shared()->timestamp();
-```
+
+
 ### Mapping
 
-Each endpoint response (exclude: timestamp) can be received as `array` or as `object`.
-
-To use mapping response to `object` set parameter `$mapping` to `true`. 
-
-```php
-$issue = $api->signed()->activeOrders(Http::PAIR_ETHUAH, true);
-
-// Result
-[
-    {
-    class madmis\KunaApi\Model\Order {
-        protected $id => 10003
-        protected $side => "sell"
-        protected $ordType => "limit"
-        protected $price => 10000
-        protected $avgPrice => 0
-        protected $state => "wait"
-        protected $market => "ethuah"
-        protected $createdAt => DateTime
-        protected $volume => 0.01
-        protected $volume => 0.01
-        protected $remainingVolume => 0.01
-        protected $executedVolume => 0
-        protected $tradesCount => 0
-      }
-    
-    },
-    ...
-] 
-```
 
 ### Error handling
-Each client request errors wrapped to custom exception **madmis\KunaApi\Exception\ClientException**  
-
-```php
-class madmis\KunaApi\Exception\ClientException {
-  private $request => class GuzzleHttp\Psr7\Request
-  private $response => NULL
-  protected $message => "cURL error 7: Failed to connect to 127.0.0.1 port 8080: Connection refused (see http://curl.haxx.se/libcurl/c/libcurl-errors.html)"
-  ...
-}
-```
-
-**ClientException** contains original **request object** and **response object** if response available
-
-```php
-class madmis\KunaApi\Exception\ClientException {
-  private $request => class GuzzleHttp\Psr7\Request 
-  private $response => class GuzzleHttp\Psr7\Response {
-    private $reasonPhrase => "Unauthorized"
-    private $statusCode => 401
-    ...
-  }
-  protected $message => "Client error: 401"
-  ...  
-}
-```
-
-So, to handle errors use try/catch
-
-```php
-try {
-    $api->signed()->activeOrders(Http::PAIR_ETHUAH, true);
-} catch (madmis\KunaApi\Exception\ClientException $ex) {
-    // any actions (log error, send email, ...) 
-}
-``` 
 
 
 ## Running the tests
@@ -127,18 +58,18 @@ Tests required running php built in server on 8000 port.
     php vendor/bin/phpunit -c phpunit.xml.dist
 
 
-[testing-link]: https://travis-ci.org/madmis/kuna-api
-[testing-image]: https://travis-ci.org/madmis/kuna-api.svg?branch=master
+[testing-link]: https://travis-ci.org/madmis/btce-api
+[testing-image]: https://travis-ci.org/madmis/btce-api.svg?branch=master
 
 [sensiolabs-insight-link]: https://insight.sensiolabs.com/projects/77152883-412e-4a91-86b6-fb976243a020
 [sensiolabs-insight-image]: https://insight.sensiolabs.com/projects/77152883-412e-4a91-86b6-fb976243a020/mini.png
 
-[package-link]: https://packagist.org/packages/madmis/kuna-api
-[downloads-image]: https://poser.pugx.org/madmis/kuna-api/downloads
-[stable-image]: https://poser.pugx.org/madmis/kuna-api/v/stable
-[license-image]: https://poser.pugx.org/madmis/kuna-api/license
-[license-link]: https://packagist.org/packages/madmis/kuna-api
+[package-link]: https://packagist.org/packages/madmis/btce-api
+[downloads-image]: https://poser.pugx.org/madmis/btce-api/downloads
+[stable-image]: https://poser.pugx.org/madmis/btce-api/v/stable
+[license-image]: https://poser.pugx.org/madmis/btce-api/license
+[license-link]: https://packagist.org/packages/madmis/btce-api
 
-[coverage-link]: https://coveralls.io/github/madmis/kuna-api?branch=master
-[coverage-image]: https://coveralls.io/repos/github/madmis/kuna-api/badge.svg?branch=master
+[coverage-link]: https://coveralls.io/github/madmis/btce-api?branch=master
+[coverage-image]: https://coveralls.io/repos/github/madmis/btce-api/badge.svg?branch=master
 
