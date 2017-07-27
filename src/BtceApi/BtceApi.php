@@ -3,12 +3,12 @@
 namespace madmis\BtceApi;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use madmis\BtceApi\Client\ClientInterface;
-use madmis\BtceApi\Client\GuzzleClient;
-use madmis\BtceApi\Endpoint\EndpointFactory;
-use madmis\BtceApi\Endpoint\EndpointInterface;
 use madmis\BtceApi\Endpoint\PublicEndpoint;
 use madmis\BtceApi\Endpoint\TradeEndpoint;
+use madmis\ExchangeApi\Client\ClientInterface;
+use madmis\ExchangeApi\Client\GuzzleClient;
+use madmis\ExchangeApi\Endpoint\EndpointFactory;
+use madmis\ExchangeApi\Endpoint\EndpointInterface;
 
 /**
  * Class BtceApi

@@ -3,8 +3,15 @@
 namespace madmis\BtceApi\Endpoint;
 
 use madmis\BtceApi\Api;
-use madmis\BtceApi\Client\ClientInterface;
-use madmis\BtceApi\Exception\ClientException;
+use madmis\BtceApi\Model\Depth;
+use madmis\BtceApi\Model\Info;
+use madmis\BtceApi\Model\PairInfo;
+use madmis\BtceApi\Model\Ticker;
+use madmis\BtceApi\Model\Trade;
+use madmis\ExchangeApi\Client\ClientInterface;
+use madmis\ExchangeApi\Endpoint\AbstractEndpoint;
+use madmis\ExchangeApi\Endpoint\EndpointInterface;
+use madmis\ExchangeApi\Exception\ClientException;
 
 /**
  * Class PublicEndpoint
@@ -33,7 +40,14 @@ class PublicEndpoint extends AbstractEndpoint implements EndpointInterface
         $response = $this->sendRequest(Api::GET, $this->getApiUrn(['info']));
 
         if ($mapping) {
-            $response = $this->deserializeItems($response, Info::class);
+            $pairs = $response['pairs'];
+            foreach ($pairs as $pair => &$info) {
+                $info['pair'] = $pair;
+            }
+            unset($info);
+            $pairs = $this->deserializeItems($response, PairInfo::class);
+            $response = $this->deserializeItem($response, Info::class);
+            $response->setPairs($pairs);
         }
 
         return $response;
@@ -53,7 +67,8 @@ class PublicEndpoint extends AbstractEndpoint implements EndpointInterface
         $response = $this->sendRequest(Api::GET, $this->getApiUrn(['ticker', $pair]));
 
         if ($mapping) {
-            $response = $this->deserializeItems($response, Ticker::class);
+            $item = array_merge(['pair' => $pair], $response[$pair]);
+            $response = $this->deserializeItem($item, Ticker::class);
         }
 
         return $response;
@@ -80,7 +95,19 @@ class PublicEndpoint extends AbstractEndpoint implements EndpointInterface
         );
 
         if ($mapping) {
-            $response = $this->deserializeItems($response, Depth::class);
+            $setDepth = function(array $item) {
+                $depth = new Depth();
+                $depth->setRate($item[0]);
+                $depth->setAmount($item[1]);
+
+                return $depth;
+            };
+
+            $result = ['asks' => [], 'bids' => []];
+            $result['asks'] = array_map($setDepth, $response['asks']);
+            $result['bids'] = array_map($setDepth, $response['bids']);
+
+            $response = $result;
         }
 
         return $response;

@@ -3,8 +3,13 @@
 namespace madmis\BtceApi\Endpoint;
 
 use madmis\BtceApi\Api;
-use madmis\BtceApi\Client\ClientInterface;
-use madmis\BtceApi\Exception\ClientException;
+use madmis\BtceApi\Model\UserInfo;
+use madmis\ExchangeApi\Client\ClientInterface;
+use madmis\ExchangeApi\Endpoint\AbstractEndpoint;
+use madmis\ExchangeApi\Endpoint\EndpointInterface;
+use madmis\ExchangeApi\Exception\ClientException;
+use Symfony\Component\OptionsResolver\Exception\AccessException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class TradeEndpoint
@@ -18,7 +23,10 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
      */
     public function __construct(ClientInterface $client, array $options = [])
     {
-        parent::__construct($client, $options);
+        $resolver = new OptionsResolver();
+        $this->configureOptions($resolver);
+
+        parent::__construct($client, $resolver->resolve($options));
         $this->baseUrn = '/tapi';
     }
 
@@ -115,5 +123,16 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
         }
 
         return (int)file_get_contents($path);
+    }
+
+    /**
+     * @param OptionsResolver $resolver
+     * @throws AccessException
+     */
+    protected function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setRequired(['publicKey', 'secretKey']);
+        $resolver->setAllowedTypes('publicKey', 'string');
+        $resolver->setAllowedTypes('secretKey', 'string');
     }
 }
