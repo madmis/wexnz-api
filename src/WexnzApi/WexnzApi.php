@@ -32,6 +32,11 @@ class WexnzApi
     private $secretKey;
 
     /**
+     * @var string
+     */
+    private $nonceFilePath;
+
+    /**
      * @var EndpointFactory
      */
     private $endpointFactory;
@@ -40,6 +45,7 @@ class WexnzApi
      * @param string $baseUri example: http://localhost:8080
      * @param string $publicKey
      * @param string $secretKey
+     * @param string $nonceFilePath /tmp
      * @param string $apiUrn example: /api/v2
      * @param array $options extra parameters
      */
@@ -47,6 +53,7 @@ class WexnzApi
         string $baseUri,
         string $publicKey,
         string $secretKey,
+        string $nonceFilePath = '/tmp',
         string $apiUrn = '/',
         array $options = []
     )
@@ -91,6 +98,7 @@ class WexnzApi
         $options = [
             'publicKey' => $this->publicKey,
             'secretKey' => $this->secretKey,
+            'nonceFilePath' => $this->nonceFilePath,
         ];
 
         return $this
