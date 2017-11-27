@@ -40,16 +40,16 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
     public function userInfo(bool $mapping = false)
     {
         $options = [
-            'query' => [
-                'method' => 'getInfo',
+            'form_params' => [
                 'nonce' => $this->getNonce(),
+                'method' => 'getInfo',
             ],
         ];
 
         $response = $this->sendRequest(Api::POST, $this->getApiUrn(), $options);
 
         if ($mapping) {
-            $response = $this->deserializeItem($response, UserInfo::class);
+            $response = $this->deserializeItem($response['return'], UserInfo::class);
         }
 
         return $response;
@@ -67,7 +67,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
     {
         $sign = hash_hmac(
             'sha512',
-            http_build_query($options['query']),
+            http_build_query($options['form_params']),
             $this->options['secretKey']
         );
 
@@ -76,9 +76,10 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
             'Key' => $this->options['publicKey'],
         ]);
 
+        $options['debug'] = false;
         $response = $this->client->send($request, $options);
 
-        $this->updateNonce($options['query']['nonce'] + 1);
+        $this->updateNonce($options['form_params']['nonce'] + 1);
 
         return $this->processResponse($response);
     }

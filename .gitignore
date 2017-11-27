@@ -1,4 +1,4 @@
 vendor
 console.php
-src/BtceApi/TestCommand.php
+src/WexnzApi/TestCommand.php
 notes.txt
