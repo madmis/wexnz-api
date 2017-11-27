@@ -89,10 +89,9 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
      */
     protected function nonceFilePath(): string
     {
-        $path = $this->options['nonceFilePath'] ?? '\tmp';
         return sprintf(
             '%s/%s-nonce.dat',
-            $path,
+            $this->options['nonceFilePath'],
             $this->options['publicKey']
         );
     }
@@ -133,8 +132,12 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefaults([
+            'nonceFilePath' => '/tmp/'
+        ]);
         $resolver->setRequired(['publicKey', 'secretKey']);
         $resolver->setAllowedTypes('publicKey', 'string');
         $resolver->setAllowedTypes('secretKey', 'string');
+        $resolver->setAllowedTypes('nonceFilePath', 'string');
     }
 }

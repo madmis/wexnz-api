@@ -53,7 +53,7 @@ class WexnzApi
         string $baseUri,
         string $publicKey,
         string $secretKey,
-        string $nonceFilePath = '/tmp',
+        string $nonceFilePath = '/tmp/',
         string $apiUrn = '/',
         array $options = []
     )
@@ -61,6 +61,7 @@ class WexnzApi
         $this->client = new GuzzleClient($baseUri, $apiUrn, $options);
         $this->publicKey = $publicKey;
         $this->secretKey = $secretKey;
+        $this->nonceFilePath = $nonceFilePath;
         $this->endpointFactory = new EndpointFactory();
     }
 
