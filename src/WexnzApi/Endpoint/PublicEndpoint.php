@@ -45,7 +45,7 @@ class PublicEndpoint extends AbstractEndpoint implements EndpointInterface
                 $info['pair'] = $pair;
             }
             unset($info);
-            $pairs = $this->deserializeItems($response, PairInfo::class);
+            $pairs = $this->deserializeItems($pairs, PairInfo::class);
             $response = $this->deserializeItem($response, Info::class);
             $response->setPairs($pairs);
         }
@@ -104,8 +104,8 @@ class PublicEndpoint extends AbstractEndpoint implements EndpointInterface
             };
 
             $result = ['asks' => [], 'bids' => []];
-            $result['asks'] = array_map($setDepth, $response['asks']);
-            $result['bids'] = array_map($setDepth, $response['bids']);
+            $result['asks'] = array_map($setDepth, $response[$pair]['asks']);
+            $result['bids'] = array_map($setDepth, $response[$pair]['bids']);
 
             $response = $result;
         }
@@ -134,7 +134,7 @@ class PublicEndpoint extends AbstractEndpoint implements EndpointInterface
         );
 
         if ($mapping) {
-            $response = $this->deserializeItems($response, Trade::class);
+            $response = $this->deserializeItems($response[$pair], Trade::class);
         }
 
         return $response;
