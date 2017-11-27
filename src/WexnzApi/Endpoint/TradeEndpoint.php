@@ -72,8 +72,8 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
         );
 
         $request = $this->client->createRequest($method, $uri, [
-            'Sign: ' . $sign,
-            'Key: ' . $this->options['publicKey'],
+            'Sign' => $sign,
+            'Key' => $this->options['publicKey'],
         ]);
 
         $response = $this->client->send($request, $options);
