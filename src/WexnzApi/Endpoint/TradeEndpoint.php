@@ -1,9 +1,9 @@
 <?php
 
-namespace madmis\BtceApi\Endpoint;
+namespace madmis\WexnzApi\Endpoint;
 
-use madmis\BtceApi\Api;
-use madmis\BtceApi\Model\UserInfo;
+use madmis\WexnzApi\Api;
+use madmis\WexnzApi\Model\UserInfo;
 use madmis\ExchangeApi\Client\ClientInterface;
 use madmis\ExchangeApi\Endpoint\AbstractEndpoint;
 use madmis\ExchangeApi\Endpoint\EndpointInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class TradeEndpoint
- * @package madmis\BtceApi\Endpoint
+ * @package madmis\WexnzApi\Endpoint
  */
 class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
 {

@@ -3,32 +3,32 @@
 namespace Test;
 
 use GuzzleHttp\Client;
-use madmis\BtceApi\BtceApi;
-use madmis\BtceApi\Endpoint\PublicEndpoint;
-use madmis\BtceApi\Endpoint\TradeEndpoint;
+use madmis\WexnzApi\WexnzApi;
+use madmis\WexnzApi\Endpoint\PublicEndpoint;
+use madmis\WexnzApi\Endpoint\TradeEndpoint;
 use madmis\ExchangeApi\Client\ClientInterface;
 use madmis\ExchangeApi\Client\GuzzleClient;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class BtceApiTest
+ * Class WexnzApiTest
  * @package Test
  */
-class BtceApiTest extends TestCase
+class WexnzApiTest extends TestCase
 {
     /**
      * @expectedException \TypeError
      */
     public function testSetClient()
     {
-        $api = new BtceApi('http://localhost', 'pub', 'sec');
+        $api = new WexnzApi('http://localhost', 'pub', 'sec');
 
         $api->setClient(new Client([]));
     }
 
     public function testGetClient()
     {
-        $api = new BtceApi('http://localhost', 'pub', 'sec');
+        $api = new WexnzApi('http://localhost', 'pub', 'sec');
 
         $this->assertInstanceOf(
             GuzzleClient::class,
@@ -45,7 +45,7 @@ class BtceApiTest extends TestCase
 
     public function testGetShared()
     {
-        $api = new BtceApi('http://localhost', 'pub', 'sec');
+        $api = new WexnzApi('http://localhost', 'pub', 'sec');
 
         $this->assertInstanceOf(
             PublicEndpoint::class,
@@ -55,7 +55,7 @@ class BtceApiTest extends TestCase
 
     public function testGetTrade()
     {
-        $api = new BtceApi('http://localhost', 'pub', 'sec');
+        $api = new WexnzApi('http://localhost', 'pub', 'sec');
 
         $this->assertInstanceOf(
             TradeEndpoint::class,

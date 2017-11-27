@@ -1,10 +1,10 @@
 <?php
 
-namespace madmis\BtceApi\Model;
+namespace madmis\WexnzApi\Model;
 
 /**
  * Class Trade
- * @package madmis\BtceApi\Model
+ * @package madmis\WexnzApi\Model
  */
 class Trade
 {

@@ -15,7 +15,7 @@
          verbose="true"
          bootstrap="tests/bootstrap.php">
     <testsuites>
-        <testsuite name="BTCE REST API Test Suite">
+        <testsuite name="Wex.nz REST API Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

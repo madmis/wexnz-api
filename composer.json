@@ -1,9 +1,9 @@
 {
-    "name": "madmis/btce-api",
-    "description": "Btc-e.com REST API php client",
+    "name": "madmis/wexnz-api",
+    "description": "Wex.nz REST API php client",
     "keywords": [
-        "btc-e.com",
-        "BTCE",
+        "Wex.nz",
+        "Wex",
         "rest",
         "api"
     ],

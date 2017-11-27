@@ -2,7 +2,7 @@
 
 namespace Test\Endpoint;
 
-use madmis\BtceApi\Endpoint\TradeEndpoint;
+use madmis\WexnzApi\Endpoint\TradeEndpoint;
 use madmis\ExchangeApi\Client\GuzzleClient;
 use PHPUnit\Framework\TestCase;
 

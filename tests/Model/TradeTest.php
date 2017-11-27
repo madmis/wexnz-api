@@ -2,7 +2,7 @@
 
 namespace Test\Model;
 
-use madmis\BtceApi\Model\Trade;
+use madmis\WexnzApi\Model\Trade;
 use PHPUnit\Framework\TestCase;
 
 /**

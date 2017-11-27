@@ -1,11 +1,11 @@
 <?php
 
 
-namespace madmis\BtceApi\Model;
+namespace madmis\WexnzApi\Model;
 
 /**
  * Class Depth
- * @package madmis\BtceApi\Model
+ * @package madmis\WexnzApi\Model
  */
 class Depth
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace madmis\BtceApi\Endpoint;
+namespace madmis\WexnzApi\Endpoint;
 
-use madmis\BtceApi\Api;
-use madmis\BtceApi\Model\Depth;
-use madmis\BtceApi\Model\Info;
-use madmis\BtceApi\Model\PairInfo;
-use madmis\BtceApi\Model\Ticker;
-use madmis\BtceApi\Model\Trade;
+use madmis\WexnzApi\Api;
+use madmis\WexnzApi\Model\Depth;
+use madmis\WexnzApi\Model\Info;
+use madmis\WexnzApi\Model\PairInfo;
+use madmis\WexnzApi\Model\Ticker;
+use madmis\WexnzApi\Model\Trade;
 use madmis\ExchangeApi\Client\ClientInterface;
 use madmis\ExchangeApi\Endpoint\AbstractEndpoint;
 use madmis\ExchangeApi\Endpoint\EndpointInterface;
@@ -15,7 +15,7 @@ use madmis\ExchangeApi\Exception\ClientException;
 
 /**
  * Class PublicEndpoint
- * @package madmis\BtceApi\Endpoint
+ * @package madmis\WexnzApi\Endpoint
  */
 class PublicEndpoint extends AbstractEndpoint implements EndpointInterface
 {

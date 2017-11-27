@@ -2,8 +2,8 @@
 
 namespace Test\Model;
 
-use madmis\BtceApi\Model\Info;
-use madmis\BtceApi\Model\PairInfo;
+use madmis\WexnzApi\Model\Info;
+use madmis\WexnzApi\Model\PairInfo;
 use PHPUnit\Framework\TestCase;
 
 /**

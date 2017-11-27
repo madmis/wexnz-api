@@ -1,20 +1,20 @@
 <?php
 
-namespace madmis\BtceApi;
+namespace madmis\WexnzApi;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use madmis\BtceApi\Endpoint\PublicEndpoint;
-use madmis\BtceApi\Endpoint\TradeEndpoint;
+use madmis\WexnzApi\Endpoint\PublicEndpoint;
+use madmis\WexnzApi\Endpoint\TradeEndpoint;
 use madmis\ExchangeApi\Client\ClientInterface;
 use madmis\ExchangeApi\Client\GuzzleClient;
 use madmis\ExchangeApi\Endpoint\EndpointFactory;
 use madmis\ExchangeApi\Endpoint\EndpointInterface;
 
 /**
- * Class BtceApi
- * @package madmis\BtceApi
+ * Class Wexnz
+ * @package madmis\WexnzApi
  */
-class BtceApi
+class WexnzApi
 {
     /**
      * @var ClientInterface
