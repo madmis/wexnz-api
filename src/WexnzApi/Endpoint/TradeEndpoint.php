@@ -199,7 +199,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
         $response = $this->sendRequest(Api::POST, $this->getApiUrn(), $options);
 
         if ($mapping) {
-            $response = $this->deserializeItem($response['return'], TradeHistory::class);
+            $response = $this->deserializeItems($response['return'], TradeHistory::class);
         }
 
         return $response;
