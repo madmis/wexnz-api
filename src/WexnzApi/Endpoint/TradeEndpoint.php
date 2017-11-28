@@ -3,6 +3,9 @@
 namespace madmis\WexnzApi\Endpoint;
 
 use madmis\WexnzApi\Api;
+use madmis\WexnzApi\Model\CancelOrder;
+use madmis\WexnzApi\Model\NewOrder;
+use madmis\WexnzApi\Model\Order;
 use madmis\WexnzApi\Model\UserInfo;
 use madmis\ExchangeApi\Client\ClientInterface;
 use madmis\ExchangeApi\Endpoint\AbstractEndpoint;
@@ -50,6 +53,118 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
 
         if ($mapping) {
             $response = $this->deserializeItem($response['return'], UserInfo::class);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Active orders list
+     * @param string $pair
+     * @param bool $mapping
+     * @return array|Order[]
+     */
+    public function activeOrders(string $pair, bool $mapping = false): array
+    {
+        $options = [
+            'form_params' => [
+                'nonce' => $this->getNonce(),
+                'method' => 'ActiveOrders',
+                'pair' => $pair,
+            ],
+        ];
+
+        $response = $this->sendRequest(Api::POST, $this->getApiUrn(), $options);
+
+        if ($mapping) {
+            $items = [];
+            foreach ($response['return'] as $id => $item) {
+                $item['id'] = $id;
+                $items[] = $item;
+            }
+            $response = $this->deserializeItems($items, Order::class);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Create orders
+     * @param string $pair
+     * @param string $type buy|sell
+     * @param float $rate
+     * @param float $amount
+     * @param bool $mapping
+     * @return array|NewOrder
+     */
+    public function trade(string $pair, string $type, float $rate, float $amount, bool $mapping = false)
+    {
+        $options = [
+            'form_params' => [
+                'nonce' => $this->getNonce(),
+                'method' => 'Trade',
+                'pair' => $pair,
+                'type' => $type,
+                'rate' => $rate,
+                'amount' => $amount,
+            ],
+        ];
+
+        $response = $this->sendRequest(Api::POST, $this->getApiUrn(), $options);
+        var_dump($response);
+
+        if ($mapping) {
+            $response = $this->deserializeItem($response['return'], NewOrder::class);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param int $orderId
+     * @param bool $mapping
+     * @return array|Order
+     */
+    public function orderInfo(int $orderId, bool $mapping = false)
+    {
+        $options = [
+            'form_params' => [
+                'nonce' => $this->getNonce(),
+                'method' => 'OrderInfo',
+                'order_id' => $orderId,
+            ],
+        ];
+
+        $response = $this->sendRequest(Api::POST, $this->getApiUrn(), $options);
+
+        if ($mapping) {
+            $info = $response['return'][$orderId];
+            $info['id'] = $orderId;
+            $response = $this->deserializeItem($info, Order::class);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param int $orderId
+     * @param bool $mapping
+     * @return array|CancelOrder
+     */
+    public function cancelOrder(int $orderId, bool $mapping = false)
+    {
+        $options = [
+            'form_params' => [
+                'nonce' => $this->getNonce(),
+                'method' => 'CancelOrder',
+                'order_id' => $orderId,
+            ],
+        ];
+
+        $response = $this->sendRequest(Api::POST, $this->getApiUrn(), $options);
+
+        if ($mapping) {
+            $response = $this->deserializeItem($response['return'], CancelOrder::class);
         }
 
         return $response;
@@ -104,9 +219,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
     protected function updateNonce(int $nonce)
     {
         if ($nonce > 4294967294) {
-            throw new \RuntimeException(
-                'Reached nonce maximum. To solve this prolem create a new api key.'
-            );
+            throw new \RuntimeException('Reached nonce maximum. To solve this prolem create a new api key.');
         }
 
         return file_put_contents($this->nonceFilePath(), $nonce);
@@ -133,7 +246,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'nonceFilePath' => '/tmp/'
+            'nonceFilePath' => '/tmp/',
         ]);
         $resolver->setRequired(['publicKey', 'secretKey']);
         $resolver->setAllowedTypes('publicKey', 'string');
