@@ -6,6 +6,7 @@ use madmis\WexnzApi\Api;
 use madmis\WexnzApi\Model\CancelOrder;
 use madmis\WexnzApi\Model\NewOrder;
 use madmis\WexnzApi\Model\Order;
+use madmis\WexnzApi\Model\TradeHistory;
 use madmis\WexnzApi\Model\UserInfo;
 use madmis\ExchangeApi\Client\ClientInterface;
 use madmis\ExchangeApi\Endpoint\AbstractEndpoint;
@@ -111,7 +112,6 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
         ];
 
         $response = $this->sendRequest(Api::POST, $this->getApiUrn(), $options);
-        var_dump($response);
 
         if ($mapping) {
             $response = $this->deserializeItem($response['return'], NewOrder::class);
@@ -171,6 +171,34 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
     }
 
     /**
+     * @param string $pair
+     * @param int $limit
+     * @param string $order
+     * @param bool $mapping
+     * @return array|TradeHistory[]
+     */
+    public function tradeHistory(string $pair, bool $mapping = false, int $limit = 1000, string $order = 'DESC'): array
+    {
+        $options = [
+            'form_params' => [
+                'nonce' => $this->getNonce(),
+                'method' => 'TradeHistory',
+                'pair' => $pair,
+                'limit' => $limit,
+                'order' => $order,
+            ],
+        ];
+
+        $response = $this->sendRequest(Api::POST, $this->getApiUrn(), $options);
+
+        if ($mapping) {
+            $response = $this->deserializeItem($response['return'], TradeHistory::class);
+        }
+
+        return $response;
+    }
+
+    /**
      * @param string $method Http::GET|POST
      * @param string $uri
      * @param array $options Request options to apply to the given
@@ -196,7 +224,40 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
 
         $this->updateNonce($options['form_params']['nonce'] + 1);
 
-        return $this->processResponse($response);
+        $response = $this->processResponse($response);
+        if (!$response['success']) {
+            $response['return'] = [];
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param array $item
+     * @param string $className
+     * @return array|object
+     */
+    protected function deserializeItems(array $item, string $className)
+    {
+        if (!$item) {
+            return [];
+        }
+
+        return parent::deserializeItems($item, $className);
+    }
+
+    /**
+     * @param array $item
+     * @param string $className
+     * @return array|object
+     */
+    protected function deserializeItem(array $item, string $className)
+    {
+        if (!$item) {
+            return [];
+        }
+
+        return parent::deserializeItem($item, $className);
     }
 
     /**
