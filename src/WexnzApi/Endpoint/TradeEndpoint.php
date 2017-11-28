@@ -3,6 +3,7 @@
 namespace madmis\WexnzApi\Endpoint;
 
 use madmis\WexnzApi\Api;
+use madmis\WexnzApi\Exception\ClientErrorException;
 use madmis\WexnzApi\Model\CancelOrder;
 use madmis\WexnzApi\Model\NewOrder;
 use madmis\WexnzApi\Model\Order;
@@ -40,6 +41,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
      * @param bool $mapping
      * @return array|UserInfo
      * @throws ClientException
+     * @throws ClientErrorException
      */
     public function userInfo(bool $mapping = false)
     {
@@ -64,6 +66,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
      * @param string $pair
      * @param bool $mapping
      * @return array|Order[]
+     * @throws ClientErrorException
      */
     public function activeOrders(string $pair, bool $mapping = false): array
     {
@@ -97,6 +100,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
      * @param float $amount
      * @param bool $mapping
      * @return array|NewOrder
+     * @throws ClientErrorException
      */
     public function trade(string $pair, string $type, float $rate, float $amount, bool $mapping = false)
     {
@@ -124,6 +128,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
      * @param int $orderId
      * @param bool $mapping
      * @return array|Order
+     * @throws ClientErrorException
      */
     public function orderInfo(int $orderId, bool $mapping = false)
     {
@@ -150,6 +155,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
      * @param int $orderId
      * @param bool $mapping
      * @return array|CancelOrder
+     * @throws ClientErrorException
      */
     public function cancelOrder(int $orderId, bool $mapping = false)
     {
@@ -176,6 +182,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
      * @param string $order
      * @param bool $mapping
      * @return array|TradeHistory[]
+     * @throws ClientErrorException
      */
     public function tradeHistory(string $pair, bool $mapping = false, int $limit = 1000, string $order = 'DESC'): array
     {
@@ -205,6 +212,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
      *                                  request and to the transfer.
      * @return array response
      * @throws ClientException
+     * @throws ClientErrorException
      */
     protected function sendRequest(string $method, string $uri, array $options = []): array
     {
@@ -226,7 +234,7 @@ class TradeEndpoint extends AbstractEndpoint implements EndpointInterface
 
         $response = $this->processResponse($response);
         if (!$response['success']) {
-            $response['return'] = [];
+            throw new ClientErrorException($response['error']);
         }
 
         return $response;
